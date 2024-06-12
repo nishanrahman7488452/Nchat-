@@ -21,12 +21,26 @@ auth.onAuthStateChanged(user => {
 function login() {
     const phoneNumber = document.getElementById('phone-number').value;
     const password = document.getElementById('password').value;
-    auth.signInWithEmailAndPassword(`${phoneNumber}@nchat.com`, password)
+
+    const email = `${phoneNumber}@nchat.com`;
+
+    auth.signInWithEmailAndPassword(email, password)
         .then(userCredential => {
             // Logged in
         })
         .catch(error => {
-            console.error("Error logging in: ", error);
+            if (error.code === 'auth/user-not-found') {
+                // Create new user
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then(userCredential => {
+                        // User created and logged in
+                    })
+                    .catch(error => {
+                        console.error("Error creating user: ", error);
+                    });
+            } else {
+                console.error("Error logging in: ", error);
+            }
         });
 }
 
