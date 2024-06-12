@@ -3,50 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NCHAT</title>
+    <title>Nchat</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-storage.js"></script>
+  <title>Nchat Profile</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="app">
-        <div id="login">
-            <h2>NCHAT Login</h2>
-            <input type="text" id="phone-number" placeholder="Enter mobile number">
-            <input type="password" id="password" placeholder="Enter password">
-            <button onclick="login()">Login</button>
+        <!-- Header with NCHAT name -->
+        <header>
+            <h1 class="nchat-name">NCHAT</h1>
+        </header>
+        <!-- Login / Signup Page -->
+        <div id="login-page">
+            <h1>Welcome to Nchat</h1>
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="button" id="login-btn" onclick="login()">Login</button>
+                <span>Don't have an account? <a href="#" onclick="showSignupForm()">Signup</a></span>
+            </form>
         </div>
-        
-        <div id="chat" style="display:none;">
-            <div id="profile">
-                <h3>Profile</h3>
-                <p id="user-phone"></p>
-                <p id="user-name"></p>
-                <input type="text" id="profile-name" placeholder="Set your name">
-                <input type="file" id="profile-pic" accept="image/*" onchange="setProfilePicture()">
-                <button onclick="updateProfile()">Update Profile</button>
-                <button onclick="logout()">Logout</button>
+
+        <!-- Main Chat Application (Initially hidden) -->
+        <div id="chat-app" style="display: none;">
+            <!-- Navigation bar -->
+            <nav id="main-menu">
+                <ul id="nav-links">
+                    <li><a href="#" onclick="navigate('newsfeed')">News Feed</a></li>
+                    <li><a href="#" onclick="navigate('profile')">Profile<div id="profile-section">
+        <h2>Profile</h2>
+        <div id="user-info">
+            <div id="avatar-section">
+                <img src="avatar.jpg" alt="Avatar" id="avatar">
+                <button onclick="changeAvatar()">Change Avatar</button>
             </div>
-            
-            <div id="friends">
-                <h3>Friends</h3>
-                <input type="text" id="friend-phone" placeholder="Add friend by phone number">
-                <button onclick="addFriend()">Add Friend</button>
-                <ul id="friend-list"></ul>
+            <div id="user-details">
+                <h3>Username: <span id="username">JohnDoe</span></h3>
+                <p>Email: <span id="email">johndoe@example.com</span></p>
+                <!-- Add more user details as needed -->
             </div>
-            
-            <div id="chat-window">
-                <h3 id="chat-with">Chat</h3>
-                <div id="messages"></div>
-                <input type="text" id="message-input" placeholder="Type a message">
-                <button onclick="sendMessage()">Send</button>
-                <input type="file" id="file-input" accept="*/*">
-                <button onclick="sendFile()">Send File</button>
+        </div>
+        <button onclick="editUserInfo()">Edit Information</button>
+    </div></a></li>
+                    <li><a href="#" onclick="navigate('messages')">Messages</a></li>
+                    <li><a href="#" onclick="navigate('friends')">Friends <div id="friends-section">
+        <h2>Friends</h2>
+        <!-- Existing friends list -->
+        <ul id="existing-friends">
+            <li>Friend 1</li>
+            <li>Friend 2</li>
+            <li>Friend 3</li>
+            <!-- Add more existing friends as needed -->
+        </ul>
+        <!-- Search for new friends -->
+        <div id="search-friends">
+            <input type="text" id="search-friends-input" placeholder="Search friends">
+            <button onclick="searchFriends()">Search</button>
+        </div>
+        <!-- Placeholder for search results -->
+        <div id="search-results">
+            <!-- Search results will be dynamically loaded here -->
+        </div>
+    </div></a></li>
+                    <li><a href="#" onclick="navigate('settings')">Settings </a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </nav>
+
+            <!-- Main content area -->
+            <div id="main-content">
+                <!-- Content for different sections will be dynamically loaded here -->
+                <div id="newsfeed-section" style="display: none;">
+                    <h2>News Feed</h2>
+                    <div id="post-form">
+                        <textarea id="post-content" placeholder="Write your post"></textarea>
+                        <button onclick="post()">Post</button>
+                    </div>
+                    <div id="newsfeed-content">
+                        <!-- Placeholder for news feed content -->
+                    </div>
+                </div>
+                <div id="profile-section" style="display: none;">
+                    <h2>Profile</h2>
+                    <!-- Placeholder for profile content -->
+                </div>
+                <div id="messages-section" style="display: none;">
+                    <h2>Messages</h2>
+                    <div id="chat-dialog">
+                        <div id="chat-header">
+                            <img src="" alt="Profile Picture" id="chat-profile-pic">
+                            <span id="chat-username"></span>
+                        </div>
+                        <div id="chat-messages">
+                            <!-- Placeholder for chat messages -->
+                        </div>
+                        <textarea id="chat-message" placeholder="Type your message"></textarea>
+                        <button onclick="sendMessage()">Send</button>
+                        <input type="file" id="file-input" onchange="sendFile()">
+                    </div>
+                    <div id="message-form">
+                        <!-- Message form placeholder -->
+                    </div>
+                </div>
+                <div id="friends-section" style="display: none;">
+                    <h2>Friends</h2>
+                    <div id="search-friends">
+                        <input type="text" id="search-friends-input" placeholder="Search friends">
+                        <button onclick="searchFriends()">Search</button>
+                    </div>
+                    <div id="friend-list">
+                        <!-- Placeholder for friends list -->
+                    </div>
+                </div>
+                <div id="settings-section" style="display: none;">
+                    <h2>Settings</h2><div id="settings-section">
+        <h2>Settings</h2>
+        <div id="settings-options">
+            <h3>Internal Settings:</h3>
+            <ul>
+                <li><label for="dark-mode">Dark Mode:</label> <input type="checkbox" id="dark-mode"></li>
+                <li><label for="profile-settings">Profile Settings:</label> <a href="profile-settings.html">Edit Profile</a></li>
+                <li><label for="switch-account">Switch Account:</label> <button onclick="switchAccount()">Switch</button></li>
+                <!-- Add more internal settings options as needed -->
+            </ul>
+        </div>
+    </div>
+                    <!-- Placeholder for settings content -->
+                </div>
             </div>
         </div>
     </div>
-    <script type="module" src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
