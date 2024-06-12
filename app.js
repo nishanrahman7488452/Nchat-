@@ -1,175 +1,117 @@
-// app.js
-import { auth, db } from './firebase-config.js';
-
-let currentUser = null;
-let currentFriend = null;
-
-auth.onAuthStateChanged(user => {
-    if (user) {
-        currentUser = user;
-        loadProfile();
-        loadFriends();
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('chat').style.display = 'block';
-    } else {
-        currentUser = null;
-        document.getElementById('login').style.display = 'block';
-        document.getElementById('chat').style.display = 'none';
-    }
-});
-
+// Function to handle login
 function login() {
-    const phoneNumber = document.getElementById('phone-number').value;
-    const password = document.getElementById('password').value;
-
-    const email = `${phoneNumber}@nchat.com`;
-
-    auth.signInWithEmailAndPassword(email, password)
-        .then(userCredential => {
-            // Logged in
-        })
-        .catch(error => {
-            if (error.code === 'auth/user-not-found') {
-                // Create new user
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then(userCredential => {
-                        // User created and logged in
-                    })
-                    .catch(error => {
-                        console.error("Error creating user: ", error);
-                    });
-            } else {
-                console.error("Error logging in: ", error);
-            }
-        });
+    // Placeholder for login logic
+    showChatApp();
 }
 
-function logout() {
-    auth.signOut();
+// Function to show chat app
+function showChatApp() {
+    document.getElementById("login-page").style.display = "none";
+    document.getElementById("chat-app").style.display = "block";
+    navigate('newsfeed'); // Initially navigate to the news feed section
 }
 
-function addFriend() {
-    const friendPhone = document.getElementById('friend-phone').value;
-    if (friendPhone) {
-        db.collection('users').doc(currentUser.uid).collection('friends').doc(friendPhone).set({
-            phone: friendPhone
-        }).then(() => {
+// Function to navigate between sections
+function navigate(section) {
+    // Hide all sections
+    const sections = ["newsfeed", "profile", "messages", "friends", "settings"];
+    sections.forEach(s => {
+        document.getElementById(s + "-section").style.display = "none";
+    });
+
+    // Show the selected section
+    document.getElementById(section + "-section").style.display = "block";
+
+    // Load content dynamically based on section
+    switch (section) {
+        case 'newsfeed':
+            loadNewsFeed();
+            break;
+        case 'profile':
+            loadProfile();
+            break;
+        case 'messages':
+            loadMessages();
+            break;
+        case 'friends':
             loadFriends();
-        }).catch(error => {
-            console.error("Error adding friend: ", error);
-        });
+            break;
+        case 'settings':
+            loadSettings();
+            break;
     }
 }
 
-function loadFriends() {
-    const friendList = document.getElementById('friend-list');
-    friendList.innerHTML = '';
-    db.collection('users').doc(currentUser.uid).collection('friends').get().then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-            const friendPhone = doc.data().phone;
-            const li = document.createElement('li');
-            li.textContent = friendPhone;
-            li.onclick = () => selectFriend(friendPhone);
-            friendList.appendChild(li);
-        });
-    });
+// Function to handle logout
+function logout() {
+    // Placeholder for logout logic
+    location.reload(); // For now, let's just reload the page to simulate logout
 }
 
-function selectFriend(friendPhone) {
-    currentFriend = friendPhone;
-    document.getElementById('chat-with').innerText = `Chat with: ${friendPhone}`;
-    loadMessages();
+// Function to show signup form
+function showSignupForm() {
+    // Placeholder for showing signup form
 }
 
-function loadMessages() {
-    const messages = document.getElementById('messages');
-    messages.innerHTML = '';
-    db.collection('chats').doc(currentUser.uid).collection(currentFriend).orderBy('timestamp').onSnapshot(querySnapshot => {
-        messages.innerHTML = '';
-        querySnapshot.forEach(doc => {
-            const message = doc.data().message;
-            const messageElement = document.createElement('div');
-            messageElement.textContent = message;
-            messages.appendChild(messageElement);
-        });
-        messages.scrollTop = messages.scrollHeight;
-    });
-}
-
-function sendMessage() {
-    const messageInput = document.getElementById('message-input');
-    const message = messageInput.value.trim();
-    if (message && currentFriend) {
-        db.collection('chats').doc(currentUser.uid).collection(currentFriend).add({
-            message: `${currentUser.phoneNumber}: ${message}`,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        db.collection('chats').doc(currentFriend).collection(currentUser.uid).add({
-            message: `${currentUser.phoneNumber}: ${message}`,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        messageInput.value = '';
-    }
-}
-
-function sendFile() {
-    const fileInput = document.getElementById('file-input');
-    const file = fileInput.files[0];
-    if (file && currentFriend) {
-        const storageRef = firebase.storage().ref();
-        const fileRef = storageRef.child(`files/${currentUser.uid}/${file.name}`);
-        fileRef.put(file).then(() => {
-            fileRef.getDownloadURL().then(url => {
-                db.collection('chats').doc(currentUser.uid).collection(currentFriend).add({
-                    message: `${currentUser.phoneNumber} sent a file: ${url}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                db.collection('chats').doc(currentFriend).collection(currentUser.uid).add({
-                    message: `${currentUser.phoneNumber} sent a file: ${url}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            });
-        });
-    }
+// Placeholder functions to load content for each section
+function loadNewsFeed() {
+    // Placeholder for loading news feed content
 }
 
 function loadProfile() {
-    document.getElementById('user-phone').innerText = currentUser.phoneNumber;
-    db.collection('users').doc(currentUser.uid).get().then(doc => {
-        if (doc.exists) {
-            document.getElementById('user-name').innerText = doc.data().name;
-        }
-    });
+    // Placeholder for loading profile content
 }
 
-function updateProfile() {
-    const name = document.getElementById('profile-name').value;
-    if (name) {
-        db.collection('users').doc(currentUser.uid).set({
-            name: name
-        }, { merge: true }).then(() => {
-            loadProfile();
-        });
-    }
+function loadMessages() {
+    // Placeholder for loading messages content
 }
 
-function setProfilePicture() {
-    const fileInput = document.getElementById('profile-pic');
+function loadFriends() {
+    // Placeholder for loading friends content
+}
+
+function loadSettings() {
+    // Placeholder for loading settings content
+}
+
+// Function to load chat with a friend
+function loadChatWithFriend(friend) {
+    document.getElementById("chat-username").textContent = friend.username;
+    document.getElementById("chat-profile-pic").src = friend.profilePic;
+    // Load chat messages between you and the friend
+    // Populate the chat-messages div with chat history
+}
+
+// Function to send a message
+function sendMessage() {
+    const message = document.getElementById("chat-message").value;
+    // Send the message to the friend
+    // Update the chat-messages div with the sent message
+    document.getElementById("chat-message").value = ""; // Clear the input field after sending
+}
+
+// Function to send a file
+function sendFile() {
+    const fileInput = document.getElementById("file-input");
     const file = fileInput.files[0];
-    if (file) {
-        const storageRef = firebase.storage().ref();
-        const fileRef = storageRef.child(`profile_pics/${currentUser.uid}/${file.name}`);
-        fileRef.put(file).then(() => {
-            fileRef.getDownloadURL().then(url => {
-                db.collection('users').doc(currentUser.uid).set({
-                    profilePic: url
-                }, { merge: true }).then(() => {
-                    const img = document.createElement('img');
-                    img.src = url;
-                    img.alt = 'Profile Picture';
-                    document.getElementById('profile').appendChild(img);
-                });
-            });
-        });
-    }
+    // Send the file to the friend
+    // Update the chat-messages div with the sent file information
+    fileInput.value = ""; // Clear the file input field after sending
+}
+
+// Function to search for friends
+function searchFriends() {
+    const searchQuery = document.getElementById("search-friends-input").value;
+    // Perform a search for friends based on the search query
+    // Update the friend-list div with search results
+}
+// Function to handle logout
+function logout() {
+    // Placeholder for logout logic
+    // Here, you can clear any session data, redirect the user to the login page, etc.
+    // For example:
+    // Clear any stored user data
+    localStorage.removeItem('user');
+    // Redirect the user to the login page
+    window.location.href = 'login.html';
 }
