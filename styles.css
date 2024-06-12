@@ -1,115 +1,180 @@
-/* styles.css */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    transition: background-color 0.5s ease;
+/* Styles for login page */
+#login-page {
+    text-align: center;
+    margin-top: 100px;
 }
 
-#app {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    overflow: hidden;
-    transition: box-shadow 0.3s ease;
+#login-page form {
+    margin-top: 20px;
 }
 
-#app:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-}
-
-#login, #chat {
-    padding: 20px;
-}
-
-#chat {
-    display: flex;
-    flex-direction: column;
-}
-
-#profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-#profile img {
-    max-width: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-#friends {
-    margin-bottom: 20px;
-}
-
-#friends ul {
-    list-style: none;
-    padding: 0;
-}
-
-#friends li {
-    margin: 5px 0;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-#friends li:hover {
-    background-color: #f0f0f0;
-}
-
-#chat-window {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-#messages {
-    flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s ease;
-}
-
-#messages div {
-    margin-bottom: 10px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: #e0e0e0;
-}
-
-#message-input {
-    width: calc(100% - 120px);
-    margin-right: 10px;
-    padding: 10px;
-}
-
-button {
-    padding: 10px;
+#login-page form button {
+    margin-top: 10px;
+    padding: 10px 20px;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-button:hover {
+#login-page form button:hover {
     background-color: #0056b3;
 }
 
-input[type="file"] {
-    display: none;
+#login-page span {
+    display: block;
+    margin-top: 10px;
+}
+
+#login-page span a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+#login-page span a:hover {
+    text-decoration: underline;
+}
+
+/* Styles for navigation bar */
+nav {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for main content area */
+#main-content {
+    padding: 20px;
+}
+
+/* Styles for friends sidebar */
+#friends-sidebar {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+#friends-sidebar input[type="text"] {
+    width: calc(100% - 80px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#friends-sidebar button {
+    width: 80px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#friends-sidebar button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for chat section */
+#chat-section {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+#chat-section input[type="text"],
+#chat-section textarea {
+    width: calc(100% - 40px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#chat-section button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#chat-section button:hover {
+    background-color: #0056b3;
+}
+/* Styles for profile section */
+#profile-section {
+    text-align: center;
+    padding: 20px;
+}
+
+#user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#avatar-section {
+    margin-right: 20px;
+}
+
+#avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+#user-details {
+    text-align: left;
+}
+
+/* Add more styles as needed */
+/* Styles for settings section */
+#settings-section {
+    text-align: center;
+    padding: 20px;
+}
+
+#settings-options {
+    text-align: left;
+}
+
+#settings-options ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#settings-options li {
+    margin-bottom: 10px;
+}
+
+#settings-options label {
+    margin-right: 10px;
 }
