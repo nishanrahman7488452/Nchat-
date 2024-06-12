@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCHAT</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.9.1/firebase-storage.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="login">
+            <h2>NCHAT Login</h2>
+            <input type="text" id="phone-number" placeholder="Enter mobile number">
+            <input type="password" id="password" placeholder="Enter password">
+            <button onclick="login()">Login</button>
+        </div>
+        
+        <div id="chat" style="display:none;">
+            <div id="profile">
+                <h3>Profile</h3>
+                <p id="user-phone"></p>
+                <p id="user-name"></p>
+                <input type="text" id="profile-name" placeholder="Set your name">
+                <input type="file" id="profile-pic" accept="image/*" onchange="setProfilePicture()">
+                <button onclick="updateProfile()">Update Profile</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+            
+            <div id="friends">
+                <h3>Friends</h3>
+                <input type="text" id="friend-phone" placeholder="Add friend by phone number">
+                <button onclick="addFriend()">Add Friend</button>
+                <ul id="friend-list"></ul>
+            </div>
+            
+            <div id="chat-window">
+                <h3 id="chat-with">Chat</h3>
+                <div id="messages"></div>
+                <input type="text" id="message-input" placeholder="Type a message">
+                <button onclick="sendMessage()">Send</button>
+                <input type="file" id="file-input" accept="*/*">
+                <button onclick="sendFile()">Send File</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
